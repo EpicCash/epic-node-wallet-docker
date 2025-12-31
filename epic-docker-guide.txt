@@ -1,0 +1,88 @@
+# Running Epic Node Server and Wallet from Docker .tar created with Dockerfile
+
+# Clone the epic-node-wallet-docker repo - install git if you don't have it (sudo apt install git)
+$ git clone https://github.com/EpicCash/epic-node-wallet-docker.git
+
+$ cd epic-node-wallet-docker
+
+$ unzip node-wallet.zip
+
+# Create Docker .tar file in epic folder (Uses Dockerfile and Makefile - if Docker doesn't require sudo to run you can also run make without it)
+
+$ sudo make
+
+# Should create the .tar file without errors
+
+# Create local vols to hold epic data and certs
+
+$ sudo docker volume create epicdata
+
+# Create Image epic-node from .tar
+
+$ sudo docker load < epic-node-wallet-docker.tar
+
+# Image epic-node-wallet ready to run as container (user: epicsvcs) optional --restart-always
+
+$ sudo docker run --name epic-node-wallet -p 3413:3413 -p 3414:3414 \
+-v epicdata:/home/epicsvcs/.epic/main -h 'epic-node-wallet' -d epic-node-wallet
+
+# Note: a Docker Compose file is included so as an alternative you can start with docker-compose up -d
+
+# Check node running - you should see progress of bootstrap download and unzip then cert creation:
+
+$ sudo docker logs -f epic-node-wallet (<ctrl>C to exit)
+
+# Interact with running container
+
+$ sudo docker exec -it epic-node-wallet bash
+
+  epicsvcs@epic-node-wallet:~$ screen -r epicnode (attach to screen running Epic Node Server)
+
+# <ctrl>A then D to detach from screen
+
+# You can interact with the wallet to init and get address
+
+  epicsvcs@epic-node-wallet:~$ epic-wallet <commands>
+
+# To put in listening mode:
+
+  epicsvcs@epic-node-wallet:~$ /usr/bin/screen -dmS epicwallet /home/epicsvcs/epic-wallet listen
+
+# <ctrl>A then D to detach from screen
+
+  epicsvcs@epic-node-wallet:~$ screen -r epicwallet (attach to screen running wallet to check stdout for errors)
+
+# <ctrl>A then D to detach from screen
+
+  epicsvcs@epic-node-wallet:~$ exit (to leave Container)
+
+# Stop/Start Container
+
+$ sudo docker stop epic-node-wallet
+$ sudo docker start epic-node-wallet
+
+# Note: Docker Container (changed) contents are not persistent. So if you stop and restart, it will have to
+# get the bootstrap and re-sync on startup, so you get a fresh blockchain every restart. You may wish to skip
+# crontab and just let the node run until there is an issue that requires a Container restart.
+
+# Note: If node data becomes corrupted or server gets hung up:
+# Stop and restart Container
+
+# To Remove Container and Image: (you need to load and run again to create a new Container from .tar->Image)
+
+$ sudo docker stop epic-node-wallet
+$ sudo docker rm epic-node-wallet
+$ sudo docker rmi epic-node-wallet
+
+# Note: If you are running the Docker on a LAN server you will need to open ports 3413, 3414, 3415, 3416, 3423
+# in Firewall and set port forwarding to the server IP.
+
+# Note: Make sure you have VPN turned off for first time run of container when it runs certbot or certbot will fail
+# receiving the challenge back to create the certs.
+
+# Another good free ddns: https://freedns.afraid.org supports multi level subdomains and a big selection of private
+# and public domains to add subdomains to.
+
+
+
+
