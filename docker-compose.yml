@@ -1,6 +1,9 @@
-version: "3.6"
+version: "3.8"
 services:
   epic-node-wallet:
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: "epic-node-wallet"
     entrypoint:
       - "/home/epicsvcs/entrypoint.sh"
@@ -8,7 +11,7 @@ services:
       - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
       - "LANG=en_US.UTF-8"
       - "LANGUAGE=en_US:en"
-    hostname: "epic-node-wallet"
+    hostname: "epic-svcs"
     image: "epic-node-wallet"
     ipc: "private"
     labels:

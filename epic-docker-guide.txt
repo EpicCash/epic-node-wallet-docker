@@ -7,7 +7,9 @@ $ cd epic-node-wallet-docker
 
 $ unzip node-wallet.zip
 
-# A Docker Compose file is included to build and start: 'sudo docker compose up -d'
+# A Docker Compose file is included to build and start:
+
+$ sudo docker compose up -d
 
 # Check node running - you should see progress of bootstrap download and unzip then cert creation:
 
