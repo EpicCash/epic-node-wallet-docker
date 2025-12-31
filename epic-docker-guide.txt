@@ -7,26 +7,7 @@ $ cd epic-node-wallet-docker
 
 $ unzip node-wallet.zip
 
-# Create Docker .tar file in epic folder (Uses Dockerfile and Makefile - if Docker doesn't require sudo to run you can also run make without it)
-
-$ sudo make
-
-# Should create the .tar file without errors
-
-# Create local vols to hold epic data and certs
-
-$ sudo docker volume create epicdata
-
-# Create Image epic-node from .tar
-
-$ sudo docker load < epic-node-wallet-docker.tar
-
-# Image epic-node-wallet ready to run as container (user: epicsvcs) optional --restart-always
-
-$ sudo docker run --name epic-node-wallet -p 3413:3413 -p 3414:3414 \
--v epicdata:/home/epicsvcs/.epic/main -h 'epic-node-wallet' -d epic-node-wallet
-
-# Note: a Docker Compose file is included so as an alternative you can start with 'sudo docker compose up -d'
+# A Docker Compose file is included to build and start: 'sudo docker compose up -d'
 
 # Check node running - you should see progress of bootstrap download and unzip then cert creation:
 

@@ -26,7 +26,7 @@ db_root = "/home/epicsvcs/.epic/main/chain_data"
 #tls_certificate_key = ""
 
 #the address on which services will listen, e.g. Transaction Pool
-api_http_addr = "0.0.0.0:3433"
+api_http_addr = "0.0.0.0:3413"
 
 #path of the secret token used by the API to authenticate the calls
 #comment the it to disable basic auth
