@@ -12,7 +12,7 @@ else
 	echo "Done"
 fi
 
-/usr/bin/screen -dmS epicnode /home/epicsvcs/epic
+/usr/bin/screen -dmS epicnode /home/epicsvcs/epic-node
 
 tail -f /dev/null
 

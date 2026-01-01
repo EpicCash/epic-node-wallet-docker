@@ -1,12 +1,37 @@
 # Multistage Docker build for Epic mainnet (latest Rust & Linux)
 
+FROM rust:latest AS build
+RUN apt-get update --fix-missing && \
+    apt-get install --no-install-recommends -y \
+        clang \
+        libclang-dev \
+        llvm-dev \
+        cmake \
+        git \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/EpicCash/epic.git
+WORKDIR epic
+COPY . .
+RUN cargo build --release
+
+WORKDIR /
+RUN git clone https://github.com/EpicCash/epic-wallet.git
+WORKDIR epic-wallet
+COPY . .
+RUN cargo build --release
+#COPY --chown=epicsvcs:epicsvcs target/release/epic-wallet /home/epicsvcs/epic-wallet
+#WORKDIR /
+#RUN rm -R /epic
+#RUN rm -R /epic-wallet
+
 FROM ubuntu:24.04
 
 RUN apt-get update && \
     DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
         sudo \
         cron \
-#        wget \
+        git \
         unzip \
         screen \
         locales \
@@ -32,10 +57,13 @@ RUN sudo -u epicsvcs mkdir -p /home/epicsvcs/.epic/main
 COPY --chown=epicsvcs:epicsvcs entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
-COPY --chown=epicsvcs:epicsvcs epic .
-COPY --chown=epicsvcs:epicsvcs epic-wallet .
+COPY --from=build /epic/target/release/epic ./epic-node
+COPY --from=build /epic-wallet/target/release/epic-wallet .
 
-RUN chmod +x ./epic
+RUN chown epicsvcs:epicsvcs epic-node
+RUN chown epicsvcs:epicsvcs epic-wallet
+
+RUN chmod +x ./epic-node
 RUN chmod +x ./epic-wallet
 
 COPY --chown=epicsvcs:epicsvcs epic-server.toml .epic/main/epic-server.toml
