@@ -6,6 +6,7 @@ $ git clone https://github.com/EpicCash/epic-node-wallet-docker.git
 $ cd epic-node-wallet-docker
 
 # A Docker Compose file is used to build and start:
+# Add your user to the docker group so you don’t need sudo for every command.
 
 $ sudo docker compose up -d
 
