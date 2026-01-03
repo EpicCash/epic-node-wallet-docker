@@ -12,12 +12,14 @@ RUN apt-get update --fix-missing && \
 
 RUN git clone https://github.com/EpicCash/epic.git
 WORKDIR epic
+RUN git submodule update --init --recursive
 COPY . .
 RUN cargo build --release
 
 WORKDIR /
 RUN git clone https://github.com/EpicCash/epic-wallet.git
 WORKDIR epic-wallet
+RUN git submodule update --init --recursive
 COPY . .
 RUN cargo build --release
 #COPY --chown=epicsvcs:epicsvcs target/release/epic-wallet /home/epicsvcs/epic-wallet
