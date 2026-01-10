@@ -23,7 +23,7 @@ services:
       - "3414:3414/tcp"
     user: "epicsvcs"
     volumes:
-      - "epicdata:/home/epicsvcs/.epic/main"
+      - "epicdata:/home/epicsvcs/.epic"
     working_dir: "/home/epicsvcs"
 
 volumes:
