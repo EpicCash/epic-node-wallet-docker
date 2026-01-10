@@ -39,6 +39,7 @@ RUN apt-get update && \
         screen \
         locales \
         openssl \
+        sqlite3 \
         libncursesw6 \
 #        nginx \
 #        python3 \
