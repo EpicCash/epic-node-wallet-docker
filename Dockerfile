@@ -77,7 +77,7 @@ USER epicsvcs
 
 RUN (echo "7 23 * * 2,4,6 screen -S epicnode -X quit && sleep 15 && /usr/bin/screen -dmS epicnode /home/epicsvcs/epic-node") | crontab -
 
-EXPOSE 3413 3414
+EXPOSE 3413 3414 3415
 
 ENTRYPOINT ["/home/epicsvcs/entrypoint.sh"]
 
