@@ -21,6 +21,7 @@ services:
     ports:
       - "3413:3413/tcp"
       - "3414:3414/tcp"
+      - "3415:3415/tcp"
     user: "epicsvcs"
     volumes:
       - "epicdata:/home/epicsvcs/.epic"
