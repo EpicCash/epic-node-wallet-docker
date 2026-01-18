@@ -27,11 +27,11 @@ $ sudo docker exec -it epic-node-wallet bash
 
 # You can interact with the wallet to init and get address
 
-  epicsvcs@epic-node-wallet:~$ ./epic-wallet <commands>
+  epicsvcs@epic-node-wallet:~$ ./epic-wallet -t ~/.epic/main <commands>
 
 # To put in listening mode (default is http):
 
-  epicsvcs@epic-node-wallet:~$ /usr/bin/screen -dmS epicwallet /home/epicsvcs/epic-wallet listen
+  epicsvcs@epic-node-wallet:~$ /usr/bin/screen -dmS epicwallet /home/epicsvcs/epic-wallet -t ~/.epic/main listen
 
 # To check wallet status
 
